@@ -9,7 +9,7 @@ db.exec(`
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     lastname TEXT NOT NULL,
-    email TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
     age INTEGER NOT NULL
   )
 `);
@@ -17,24 +17,29 @@ db.exec(`
 const { count } = db.prepare('SELECT COUNT(*) as count FROM students').get() as { count: number };
 
 if (count === 0) {
-  const insert = db.prepare(
-    'INSERT INTO students (id, name, lastname, email, age) VALUES (?, ?, ?, ?, ?)'
-  );
+  type SeedRow = { name: string; lastname: string; email: string; age: number };
 
-  const seed: [string, string, string, number][] = [
-    ['Mario', 'Rossi', 'mario.rossi@email.com', 22],
-    ['Giulia', 'Bianchi', 'giulia.bianchi@email.com', 20],
-    ['Luca', 'Ferrari', 'luca.ferrari@email.com', 24],
-    ['Sofia', 'Esposito', 'sofia.esposito@email.com', 21],
-    ['Marco', 'Romano', 'marco.romano@email.com', 23],
-    ['Anna', 'Colombo', 'anna.colombo@email.com', 19],
-    ['Davide', 'Ricci', 'davide.ricci@email.com', 25],
-    ['Chiara', 'Marino', 'chiara.marino@email.com', 20],
+  const seed: SeedRow[] = [
+    { name: 'Mario', lastname: 'Rossi', email: 'mario.rossi@email.com', age: 22 },
+    { name: 'Giulia', lastname: 'Bianchi', email: 'giulia.bianchi@email.com', age: 20 },
+    { name: 'Luca', lastname: 'Ferrari', email: 'luca.ferrari@email.com', age: 24 },
+    { name: 'Sofia', lastname: 'Esposito', email: 'sofia.esposito@email.com', age: 21 },
+    { name: 'Marco', lastname: 'Romano', email: 'marco.romano@email.com', age: 23 },
+    { name: 'Anna', lastname: 'Colombo', email: 'anna.colombo@email.com', age: 19 },
+    { name: 'Davide', lastname: 'Ricci', email: 'davide.ricci@email.com', age: 25 },
+    { name: 'Chiara', lastname: 'Marino', email: 'chiara.marino@email.com', age: 20 },
   ];
 
-  seed.forEach(([name, lastname, email, age]) => {
-    insert.run(uuidv4(), name, lastname, email, age);
+  const seedDb = db.transaction((rows: SeedRow[]) => {
+    const insert = db.prepare(
+      'INSERT INTO students (id, name, lastname, email, age) VALUES (?, ?, ?, ?, ?)'
+    );
+    for (const row of rows) {
+      insert.run(uuidv4(), row.name, row.lastname, row.email, row.age);
+    }
   });
+
+  seedDb(seed);
 }
 
 export default db;
