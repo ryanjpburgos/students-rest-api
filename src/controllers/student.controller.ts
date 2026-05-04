@@ -32,16 +32,24 @@ export const getById = (req: Request, res: Response): void => {
 export const create = (req: Request, res: Response): void => {
   const result = studentSchema.safeParse(req.body);
   if (!result.success) {
-    res.status(400).json({ error: result.error.errors[0].message });
+    res.status(400).json({ errors: result.error.errors.map(e => e.message) });
     return;
   }
 
   const { name, lastname, email, age } = result.data;
   const id = uuidv4();
 
-  db.prepare(
-    'INSERT INTO students (id, name, lastname, email, age) VALUES (?, ?, ?, ?, ?)'
-  ).run(id, name, lastname, email, age);
+  try {
+    db.prepare(
+      'INSERT INTO students (id, name, lastname, email, age) VALUES (?, ?, ?, ?, ?)'
+    ).run(id, name, lastname, email, age);
+  } catch (err: unknown) {
+    if (err instanceof Error && (err as NodeJS.ErrnoException).code === 'SQLITE_CONSTRAINT_UNIQUE') {
+      res.status(409).json({ error: 'Email already in use' });
+      return;
+    }
+    throw err;
+  }
 
   res.status(201).json({ id, name, lastname, email, age });
 };
@@ -58,15 +66,23 @@ export const update = (req: Request, res: Response): void => {
 
   const result = studentSchema.safeParse(req.body);
   if (!result.success) {
-    res.status(400).json({ error: result.error.errors[0].message });
+    res.status(400).json({ errors: result.error.errors.map(e => e.message) });
     return;
   }
 
   const { name, lastname, email, age } = result.data;
 
-  db.prepare(
-    'UPDATE students SET name = ?, lastname = ?, email = ?, age = ? WHERE id = ?'
-  ).run(name, lastname, email, age, req.params.id);
+  try {
+    db.prepare(
+      'UPDATE students SET name = ?, lastname = ?, email = ?, age = ? WHERE id = ?'
+    ).run(name, lastname, email, age, req.params.id);
+  } catch (err: unknown) {
+    if (err instanceof Error && (err as NodeJS.ErrnoException).code === 'SQLITE_CONSTRAINT_UNIQUE') {
+      res.status(409).json({ error: 'Email already in use' });
+      return;
+    }
+    throw err;
+  }
 
   res.json({ id: req.params.id, name, lastname, email, age });
 };
