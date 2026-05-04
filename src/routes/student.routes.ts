@@ -9,6 +9,7 @@ const router = Router();
  *   schemas:
  *     Student:
  *       type: object
+ *       required: [id, name, lastname, email, age]
  *       properties:
  *         id:
  *           type: string
@@ -90,6 +91,7 @@ router.get('/', getAll);
  *         required: true
  *         schema:
  *           type: string
+ *           format: uuid
  *         description: UUID dello studente
  *     responses:
  *       200:
@@ -146,6 +148,7 @@ router.post('/', create);
  * /student/{id}:
  *   put:
  *     summary: Aggiorna uno studente esistente
+ *     description: "Sostituzione completa: tutti i campi (name, lastname, email, age) sono obbligatori."
  *     tags: [Students]
  *     parameters:
  *       - in: path
@@ -153,6 +156,7 @@ router.post('/', create);
  *         required: true
  *         schema:
  *           type: string
+ *           format: uuid
  *         description: UUID dello studente
  *     requestBody:
  *       required: true
@@ -200,6 +204,7 @@ router.put('/:id', update);
  *         required: true
  *         schema:
  *           type: string
+ *           format: uuid
  *         description: UUID dello studente
  *     responses:
  *       204:
