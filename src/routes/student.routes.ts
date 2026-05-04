@@ -65,11 +65,11 @@ const router = Router();
  * @swagger
  * /student:
  *   get:
- *     summary: Ritorna tutti gli studenti
+ *     summary: Returns all students
  *     tags: [Students]
  *     responses:
  *       200:
- *         description: Lista di tutti gli studenti
+ *         description: List of all students
  *         content:
  *           application/json:
  *             schema:
@@ -83,7 +83,7 @@ router.get('/', getAll);
  * @swagger
  * /student/{id}:
  *   get:
- *     summary: Ritorna uno studente per ID
+ *     summary: Returns a student by ID
  *     tags: [Students]
  *     parameters:
  *       - in: path
@@ -92,16 +92,16 @@ router.get('/', getAll);
  *         schema:
  *           type: string
  *           format: uuid
- *         description: UUID dello studente
+ *         description: Student UUID
  *     responses:
  *       200:
- *         description: Studente trovato
+ *         description: Student found
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Student'
  *       404:
- *         description: Studente non trovato
+ *         description: Student not found
  *         content:
  *           application/json:
  *             schema:
@@ -113,7 +113,7 @@ router.get('/:id', getById);
  * @swagger
  * /student:
  *   post:
- *     summary: Crea un nuovo studente
+ *     summary: Create a new student
  *     tags: [Students]
  *     requestBody:
  *       required: true
@@ -123,19 +123,19 @@ router.get('/:id', getById);
  *             $ref: '#/components/schemas/StudentInput'
  *     responses:
  *       201:
- *         description: Studente creato con successo
+ *         description: Student created successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Student'
  *       400:
- *         description: Dati non validi
+ *         description: Invalid data
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ValidationErrors'
  *       409:
- *         description: Email già in uso
+ *         description: Email already in use
  *         content:
  *           application/json:
  *             schema:
@@ -147,8 +147,8 @@ router.post('/', create);
  * @swagger
  * /student/{id}:
  *   put:
- *     summary: Aggiorna uno studente esistente
- *     description: "Sostituzione completa: tutti i campi (name, lastname, email, age) sono obbligatori."
+ *     summary: Update an existing student
+ *     description: "Full replacement: all fields (name, lastname, email, age) are required."
  *     tags: [Students]
  *     parameters:
  *       - in: path
@@ -157,7 +157,7 @@ router.post('/', create);
  *         schema:
  *           type: string
  *           format: uuid
- *         description: UUID dello studente
+ *         description: Student UUID
  *     requestBody:
  *       required: true
  *       content:
@@ -166,25 +166,25 @@ router.post('/', create);
  *             $ref: '#/components/schemas/StudentInput'
  *     responses:
  *       200:
- *         description: Studente aggiornato con successo
+ *         description: Student updated successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Student'
  *       400:
- *         description: Dati non validi
+ *         description: Invalid data
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ValidationErrors'
  *       404:
- *         description: Studente non trovato
+ *         description: Student not found
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       409:
- *         description: Email già in uso
+ *         description: Email already in use
  *         content:
  *           application/json:
  *             schema:
@@ -196,7 +196,7 @@ router.put('/:id', update);
  * @swagger
  * /student/{id}:
  *   delete:
- *     summary: Elimina uno studente
+ *     summary: Delete a student
  *     tags: [Students]
  *     parameters:
  *       - in: path
@@ -205,12 +205,12 @@ router.put('/:id', update);
  *         schema:
  *           type: string
  *           format: uuid
- *         description: UUID dello studente
+ *         description: Student UUID
  *     responses:
  *       204:
- *         description: Studente eliminato con successo
+ *         description: Student deleted successfully
  *       404:
- *         description: Studente non trovato
+ *         description: Student not found
  *         content:
  *           application/json:
  *             schema:

@@ -1,7 +1,7 @@
 {
   "name": "api-studenti",
   "version": "1.0.0",
-  "description": "REST API didattiche per esercitarsi con le richieste HTTP",
+  "description": "Educational REST APIs for practicing HTTP requests",
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",

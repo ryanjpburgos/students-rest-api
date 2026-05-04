@@ -1,6 +1,6 @@
 # API Studenti
 
-REST API didattiche per esercitarsi con le richieste HTTP.
+Educational REST APIs for practicing HTTP requests.
 
 ## Setup
 
@@ -9,20 +9,20 @@ npm install
 npm run dev
 ```
 
-L'API sarà disponibile su `http://localhost:3000`.
-La documentazione interattiva Swagger sarà su `http://localhost:3000/api-docs`.
+The API will be available at `http://localhost:3000`.
+The interactive Swagger documentation will be at `http://localhost:3000/api-docs`.
 
 ## Endpoints
 
-| Metodo | Path | Descrizione |
+| Method | Path | Description |
 |--------|------|-------------|
-| GET | `/student` | Lista tutti gli studenti |
-| GET | `/student/:id` | Ritorna uno studente per UUID |
-| POST | `/student` | Crea uno studente |
-| PUT | `/student/:id` | Aggiorna uno studente (tutti i campi obbligatori) |
-| DELETE | `/student/:id` | Elimina uno studente |
+| GET | `/student` | List all students |
+| GET | `/student/:id` | Returns a student by UUID |
+| POST | `/student` | Create a student |
+| PUT | `/student/:id` | Update a student (all fields required) |
+| DELETE | `/student/:id` | Delete a student |
 
-## Esempio body POST/PUT
+## POST/PUT body example
 
 ```json
 {
@@ -33,18 +33,18 @@ La documentazione interattiva Swagger sarà su `http://localhost:3000/api-docs`.
 }
 ```
 
-## Risposte di errore
+## Error responses
 
-| Status | Quando | Body |
-|--------|--------|------|
-| 400 | Dati non validi | `{ "errors": ["..."] }` |
-| 404 | Studente non trovato | `{ "error": "Student not found" }` |
-| 409 | Email già in uso | `{ "error": "Email already in use" }` |
-| 500 | Errore interno | `{ "error": "Internal server error" }` |
+| Status | When | Body |
+|--------|------|------|
+| 400 | Invalid data | `{ "errors": ["..."] }` |
+| 404 | Student not found | `{ "error": "Student not found" }` |
+| 409 | Email already in use | `{ "error": "Email already in use" }` |
+| 500 | Internal error | `{ "error": "Internal server error" }` |
 
-## Note
+## Notes
 
-- Il database SQLite (`students.db`) viene creato automaticamente al primo avvio
-- Al primo avvio vengono precaricati 8 studenti di esempio
-- CORS abilitato per tutti le origini — puoi chiamare le API da qualsiasi frontend locale
-- Nessuna autenticazione richiesta
+- The SQLite database (`students.db`) is created automatically on first run
+- On first run, 8 sample students are seeded
+- CORS enabled for all origins — can call APIs from any local frontend
+- No authentication required

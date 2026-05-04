@@ -18,7 +18,7 @@ const swaggerSpec = swaggerJsdoc({
     info: {
       title: 'API Studenti',
       version: '1.0.0',
-      description: 'REST API didattiche per esercitarsi con le richieste HTTP',
+      description: 'Educational REST APIs for practicing HTTP requests',
     },
     servers: [{ url: `http://localhost:${PORT}` }],
   },
