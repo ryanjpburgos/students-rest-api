@@ -1,9 +1,10 @@
-import express from 'express';
+import 'dotenv/config';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import studentRouter from './routes/student.routes';
 import './db/database';
+import studentRouter from './routes/student.routes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,11 +22,16 @@ const swaggerSpec = swaggerJsdoc({
     },
     servers: [{ url: `http://localhost:${PORT}` }],
   },
-  apis: ['./src/routes/*.ts'],
+  apis: ['./src/routes/*.ts', './dist/routes/*.js'],
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/student', studentRouter);
+
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err);
+  res.status(500).json({ error: 'Internal server error' });
+});
 
 app.listen(PORT, () => {
   console.log(`\nServer: http://localhost:${PORT}`);
